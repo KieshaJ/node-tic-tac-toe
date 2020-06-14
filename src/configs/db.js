@@ -2,7 +2,9 @@ import Sequelize from "sequelize";
 
 import Action from "../models/action";
 
-const connection = new Sequelize('sqlite::memory:');
+const connection = new Sequelize('sqlite::memory:', {
+    logging: false
+});
 
 const db = {
     Sequelize,

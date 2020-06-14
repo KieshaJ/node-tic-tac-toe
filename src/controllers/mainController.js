@@ -3,13 +3,13 @@ import TicTacToe from "../lib/tictactoe";
 import ActionTypes from "../utils/actionTypes";
 
 const actions = db.actions;
-let game = new TicTacToe();
+let game;
 
-exports.getGame = (req, res) => {
+const getGame = (req, res) => {
     res.status(200).json(game);
 };
 
-exports.createGame = (req, res) => {
+const createGame = (req, res) => {
     game = new TicTacToe();
     const newAction = {
         actionType: ActionTypes.NEW_GAME,
@@ -22,7 +22,7 @@ exports.createGame = (req, res) => {
     });
 };
 
-exports.createAction = (req, res) => {
+const createAction = (req, res) => {
     const { player, xPos, yPos } = req.body;
 
     let boardClone = game.board;
@@ -30,8 +30,6 @@ exports.createAction = (req, res) => {
     boardClone[xPos][yPos] = player;
     game.gameBoard = boardClone;
     game.gameState = game.evaluateGameState();
-
-
 
     const newAction = {
         player,
@@ -47,8 +45,19 @@ exports.createAction = (req, res) => {
     });
 };
 
-exports.listActions = (req, res) => {
-    actions.findAll().then(data => {
+const listActions = (req, res) => {
+    actions.findAll({
+        order: [
+            ['createdAt', 'DESC']
+        ]
+    }).then(data => {
         res.status(200).json(data);
     });
+};
+
+module.exports = {
+    getGame,
+    createGame,
+    createAction,
+    listActions
 };

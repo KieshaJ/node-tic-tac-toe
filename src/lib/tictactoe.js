@@ -54,6 +54,8 @@ class TicTacToe {
 
     evaluateGameState() {
         let empty = 0;
+        let p1Wins = false;
+        let p2Wins = false;
 
         winCombinations.forEach(combination => {
             let p1 = 0;
@@ -68,13 +70,14 @@ class TicTacToe {
                 if(this.gameBoard[xPos][yPos] === 0) empty++;
             });
 
-            if(p1 === 3) return GameStates.PLAYER_1_WIN;
-            if(p2 === 3) return GameStates.PLAYER_2_WIN;
+            if(p1 === 3) p1Wins = true;
+            if(p2 === 3) p2Wins = true;
         });
 
-        if(empty === 0) return GameStates.DRAW;
-
-        return GameStates.IN_PROGRESS;
+        if(p1Wins) return GameStates.PLAYER_1_WIN;
+        else if(p2Wins) return GameStates.PLAYER_2_WIN;
+        else if(empty === 0) return GameStates.DRAW;
+        else return GameStates.IN_PROGRESS;
     }
 }
 

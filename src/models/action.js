@@ -34,6 +34,7 @@ module.exports = (connection) => {
         sequelize: connection,
         modelName: 'action'
     });
+    Action.sync();
 
     return Action;
 };
